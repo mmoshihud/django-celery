@@ -1,8 +1,9 @@
-import pandas as pd
 from django.shortcuts import render, redirect
 
 from myapp.form import UploadFileForm
 from myapp.models import ExcelData
+from myapp.task import process_excel_data, add
+from celery.result import AsyncResult
 
 
 def home(request):
@@ -10,7 +11,13 @@ def home(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    result = add.delay(10, 20)
+    return render(request, "about.html", {"result": result})
+
+
+def check_result(request, task_id):
+    result = AsyncResult(task_id)
+    return render(request, "result.html", {"result": result})
 
 
 def contact(request):
@@ -23,14 +30,13 @@ def upload(request):
         if form.is_valid():
             # Read the Excel file using pandas
             excel_file = request.FILES["file"]
-            df = pd.read_excel(excel_file)
 
-            # Loop through the DataFrame and save each row to the database
-            for index, row in df.iterrows():
-                ExcelData.objects.create(
-                    name=row["name"],
-                    designation=row["designation"],
-                )
+            file_path = "C:\\Temp\\{}".format(excel_file.name)
+            with open(file_path, "wb") as destination:
+                for chunk in excel_file.chunks():
+                    destination.write(chunk)
+
+            process_excel_data.delay(file_path)
 
             return redirect("/")
     else:

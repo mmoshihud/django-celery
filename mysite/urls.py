@@ -25,4 +25,5 @@ urlpatterns = [
     path("about/", myapp.views.about, name="about"),
     path("contact/", myapp.views.contact, name="contact"),
     path("upload/", myapp.views.upload, name="upload"),
+    path("result/<str:task_id>", myapp.views.check_result, name="check_result"),
 ]

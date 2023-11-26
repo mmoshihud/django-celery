@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Result Page</h1>
+    <hr/>
+    {% if result %}
+        <h5>Task ID: {{ result.id }}</h5>
+        <h5>Task ID: {{ result.task_id }}</h5>
+        <h5>Task State: {{ result.state }}</h5>
+        <h5>Task Status: {{ result.status }}</h5>
+        <h5>Result Value: {{ result.result }}</h5>
+    {% endif %}
+
+{% endblock %}
