@@ -24,4 +24,5 @@ urlpatterns = [
     path("", myapp.views.home, name="home"),
     path("about/", myapp.views.about, name="about"),
     path("contact/", myapp.views.contact, name="contact"),
+    path("upload/", myapp.views.upload, name="upload"),
 ]

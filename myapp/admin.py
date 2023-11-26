@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from myapp.models import ExcelData
+
+
+class ExcelDataAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(ExcelData, ExcelDataAdmin)

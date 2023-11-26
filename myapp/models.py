@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
+class ExcelData(models.Model):
+    name = models.CharField(max_length=255)
+    designation = models.CharField(max_length=255)
